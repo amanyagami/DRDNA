@@ -1,0 +1,6 @@
+data/cifar-10-python.tar.gz filter=lfs diff=lfs merge=lfs -text
+logfile.txt filter=lfs diff=lfs merge=lfs -text
+DRDNA/b10c32/correct_data.pt filter=lfs diff=lfs merge=lfs -text
+*.pt filter=lfs diff=lfs merge=lfs -text
+*.txt filter=lfs diff=lfs merge=lfs -text
+/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/correct_data.pt filter=lfs diff=lfs merge=lfs -text
