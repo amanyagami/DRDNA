@@ -182,7 +182,7 @@ def test_with_fault(model, tau1, tau2, tau3):
             
             if count %100 == 0 :
                 print(count)
-                if count == 10000:
+                if count == 2000:
                     break
             # print(Total_score[-1])
             # print("===================================")

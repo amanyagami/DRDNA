@@ -196,7 +196,7 @@ def test_without_fault(model, tau1, tau2, tau3):
             TAU3List[count] = TAU1
             if count %100 == 0:
                 print(count)
-            if count == 1000:
+            if count == 2000:
                 break
     with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU1nosdc.pkl', 'wb') as f:
         pickle.dump(TAU1 ,f)
