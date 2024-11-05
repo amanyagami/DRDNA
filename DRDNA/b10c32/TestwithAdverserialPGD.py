@@ -1,14 +1,16 @@
 
-from pytorchfi.core import fault_injection 
-from pytorchfi.neuron_error_models import random_neuron_inj
+# from pytorchfi.core import fault_injection 
+# from pytorchfi.neuron_error_models import random_neuron_inj
 import torch.nn as nn
 from collections import namedtuple
-from pytorchfi import core
+import numpy as np
+# from pytorchfi import core
 import torch
 import os
 import torchattacks
 import copy
 import logging
+import matplotlib.pyplot as plt
 import pandas as pd
 from bisect import bisect_left
 from data.data import testset
@@ -24,17 +26,17 @@ from config import Lambda2,Lambda1,Lambda3,bins_num,cohortSize,path
 from src.utils.customFI_methods import single_bit_flip_func
 from scipy.stats import wasserstein_distance
 # from offlineProfiling import cohort_size
-from pytorchfi.neuron_error_models import (
-    random_inj_per_layer,
-    random_inj_per_layer_batched,
-    random_neuron_inj,
-    random_neuron_inj_batched,
-    random_neuron_single_bit_inj,
-    random_neuron_single_bit_inj_batched,
-    random_batch_element,
-    random_neuron_location,
-    #declare_neuron_fault_injection
-)
+# from pytorchfi.neuron_error_models import (
+#     random_inj_per_layer,
+#     random_inj_per_layer_batched,
+#     random_neuron_inj,
+#     random_neuron_inj_batched,
+#     random_neuron_single_bit_inj,
+#     random_neuron_single_bit_inj_batched,
+#     random_batch_element,
+#     random_neuron_location,
+#     #declare_neuron_fault_injection
+# )
 # os.environ['LOGLEVEL'] = 'DEBUG'  # Adjust logging level to capture DEBUG messages
 # logging.basicConfig(level=logging.DEBUG,
 #                     format='%(asctime)-15s %(levelname)s %(message)s',
@@ -188,44 +190,89 @@ def test_with_fault(model, tau1, tau2, tau3):
                     Val += [(layer,TAU1[layer],TAU2[layer],TAU3[layer])]
                 writer.writerow(Val)
             final_Scores += [prev]
-            TAU3List[count] = TAU3
-            TAU2List[count] = TAU2
-            TAU3List[count] = TAU1
+            # TAU3List[count] = TAU3
+            # TAU2List[count] = TAU2
+            # TAU3List[count] = TAU1
             if count %100 == 0:
                 print(count)
             if count == 2000 :
                 break
-    with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU1adv.pkl', 'wb') as f:
-        pickle.dump(TAU1 ,f)
-    with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU2adv.pkl', 'wb') as f:
-        pickle.dump(TAU2 ,f)
-    with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU3adv.pkl', 'wb') as f:
-        pickle.dump(TAU3 ,f)
+    # with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU1adv.pkl', 'wb') as f:
+    #     pickle.dump(TAU1 ,f)
+    # with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU2adv.pkl', 'wb') as f:
+    #     pickle.dump(TAU2 ,f)
+    # with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU3adv.pkl', 'wb') as f:
+    #     pickle.dump(TAU3 ,f)
 
     print(f'\nTest set: Average loss: {test_loss/len(testloader):.4f}, Accuracy: {correct}/{total} ({100.*correct/total:.2f}%) \n')
 
 
 
-def pgd_attack(model, images, labels, eps=0.003, alpha=2/255, iters=40) :
-    images = images.to(device)
-    labels = labels.to(device)
-    loss = nn.CrossEntropyLoss()
+def pgd_attack(model, images, labels, eps=0.01, alpha=0.01, iters=20) :
+    # images = images.to(device)
+    # labels = labels.to(device)
+    # loss = nn.CrossEntropyLoss()
         
-    ori_images = images.data
+    # ori_images = images.data
         
-    for i in range(iters) :    
-        images.requires_grad = True
-        outputs = model(images)
+    # for i in range(iters) :    
+    #     images.requires_grad = True
+    #     outputs = model(images)
 
-        model.zero_grad()
-        cost = loss(outputs, labels).to(device)
-        cost.backward()
+    #     model.zero_grad()
+    #     cost = loss(outputs, labels).to(device)
+    #     cost.backward()
 
-        adv_images = images + alpha*images.grad.sign()
-        eta = torch.clamp(adv_images - ori_images, min=-eps, max=eps)
-        images = torch.clamp(ori_images + eta, min=0, max=1).detach_()
+    #     adv_images = images + alpha*images.grad.sign()
+    #     eta = torch.clamp(adv_images - ori_images, min=-eps, max=eps)
+    #     images = torch.clamp(ori_images + eta, min=0, max=1).detach_()
             
     return images,labels
+def preprocess_image(tensor1):
+    """
+    Converts a tensor image to a numpy array for visualization.
+    Assumes tensor is in (C, H, W) format.
+    """
+    # Move the tensor to CPU and convert to numpy
+    image = tensor1.clone().detach().cpu().numpy()
+    
+    # If the tensor is normalized, you might need to unnormalize it
+    # For example, if normalized with mean and std:
+    # mean = np.array([0.485, 0.456, 0.406])
+    # std = np.array([0.229, 0.224, 0.225])
+    # image = (image * std[:, None, None]) + mean[:, None, None]
+    
+    # Transpose from (C, H, W) to (H, W, C)
+    image = np.transpose(image, (1, 2, 0))
+    
+    # Clip the image to [0, 1] range
+    image = np.clip(image, 0, 1)
+    
+    return image
+
+def show_single_image(tensor, label, classes=None, flag = 0 ):
+    """
+    Displays a single image with its label.
+
+    Args:
+        tensor (Tensor): Image tensor of shape (C, H, W).
+        label (int): Label index.
+        classes (list): List of class names.
+    """
+    image = preprocess_image(tensor)
+    
+    plt.figure(figsize=(6, 6))
+    plt.imshow(image)
+    if classes:
+        plt.title(classes[label])
+    else:
+        plt.title(f"Label: {label}")
+    plt.axis('off')
+    plt.show()
+    if flag == 0:
+        plt.savefig('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/imageBeforeAdvPGD.png')
+    if flag == 1:
+        plt.savefig('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/imageAfterAdvPGD.png')
 
 def fgsm_attack(model, loss_fn, images, labels, epsilon):
     # Set requires_grad attribute of images to True for gradient computation
@@ -294,10 +341,11 @@ if __name__ == '__main__':
     # # Recreate the TensorDataset
     # new_test_dataset = TensorDataset(correct_inputs, correct_targets)
    
-
+    show_single_image(correct_inputs[0], correct_targets[0], None,0)
     adv_input, adv_labels = pgd_attack(net,data['inputs'], data['targets'])
-    new_test_dataset = TensorDataset(adv_input, adv_labels.clone().detach())
-
+    show_single_image(adv_input[0], correct_targets[0], None,1)
+    # new_test_dataset = TensorDataset(adv_input, adv_labels.clone().detach())
+    new_test_dataset = TensorDataset(correct_inputs,correct_targets)
 
     # Create a DataLoader
     testloader = DataLoader(

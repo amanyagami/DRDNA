@@ -193,7 +193,7 @@ def offline_profiling(epoch):
     correct = 0
     total = 0
     count = 0
-    it = 0
+    # it = 0
     tau1 = {}
     tau2= {}
     tau3 = {}

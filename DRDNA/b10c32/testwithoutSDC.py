@@ -14,6 +14,7 @@ import pickle
 import pandas as pd
 from data.data import testloader
 from src.utils.helpers import device
+from torch.utils.data import TensorDataset, DataLoader
 from src.models.resnet import resnet18
 from src.utils.customFI_methods import random_neuron_single_bit_inj_Aman
 from src.utils.customFI_methods import single_bit_flip_func
@@ -107,7 +108,7 @@ def test_without_fault(model, tau1, tau2, tau3):
     with torch.no_grad():
         for batch_idx, (inputs, targets) in enumerate(testloader):
             inputs, targets = inputs.to(device), targets.to(device)
-
+            
             # pfi.reset_current_layer()
             #single_input = inputs[0]  # Extract the first image in the batch
             #outputs = corrupt_model(single_input.unsqueeze(0))
@@ -196,14 +197,14 @@ def test_without_fault(model, tau1, tau2, tau3):
             TAU3List[count] = TAU1
             if count %100 == 0:
                 print(count)
-            if count == 2000:
+            if count == 3000:
                 break
-    with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU1nosdc.pkl', 'wb') as f:
-        pickle.dump(TAU1 ,f)
-    with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU2nosdc.pkl', 'wb') as f:
-        pickle.dump(TAU2 ,f)
-    with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU3nosdc.pkl', 'wb') as f:
-        pickle.dump(TAU3 ,f)
+    # with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU1nosdc.pkl', 'wb') as f:
+    #     pickle.dump(TAU1 ,f)
+    # with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU2nosdc.pkl', 'wb') as f:
+    #     pickle.dump(TAU2 ,f)
+    # with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU3nosdc.pkl', 'wb') as f:
+    #     pickle.dump(TAU3 ,f)
     print(f'\nTest set: Average loss: {test_loss/len(testloader):.4f}, Accuracy: {correct}/{total} ({100.*correct/total:.2f}%) , Wrong = {wrong}\n')
 
 if __name__ == '__main__':
@@ -239,7 +240,19 @@ if __name__ == '__main__':
 
     # corrupt_model = random_neuron_single_bit_inj_Aman(pfi, ranges, fi_layer, fi_c, fi_h, fi_w,bit_pos = bit_pos)
     selected_neurons = []
-    
+    data = torch.load('correct_data.pt')
+    correct_inputs = data['inputs']
+    correct_targets = data['targets']
+    new_test_dataset = TensorDataset(correct_inputs, correct_targets)
+
+    # Create a DataLoader
+    testloader = DataLoader(
+        new_test_dataset,
+        batch_size=1,  # Use the batch size you need
+        shuffle=False,
+        num_workers=0  # Adjust based on your environment
+    )
+
     with open(pathtoDetectionSites, 'r') as f:
         for line in f:
             layer_name, location = line.strip().split(',',1)

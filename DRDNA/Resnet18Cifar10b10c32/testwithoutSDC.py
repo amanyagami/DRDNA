@@ -198,12 +198,12 @@ def test_without_fault(model, tau1, tau2, tau3):
                 print(count)
             if count == 2000:
                 break
-    with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU1nosdc.pkl', 'wb') as f:
-        pickle.dump(TAU1 ,f)
-    with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU2nosdc.pkl', 'wb') as f:
-        pickle.dump(TAU2 ,f)
-    with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU3nosdc.pkl', 'wb') as f:
-        pickle.dump(TAU3 ,f)
+    # with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU1nosdc.pkl', 'wb') as f:
+    #     pickle.dump(TAU1 ,f)
+    # with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU2nosdc.pkl', 'wb') as f:
+    #     pickle.dump(TAU2 ,f)
+    # with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/TAU3nosdc.pkl', 'wb') as f:
+    #     pickle.dump(TAU3 ,f)
     print(f'\nTest set: Average loss: {test_loss/len(testloader):.4f}, Accuracy: {correct}/{total} ({100.*correct/total:.2f}%) , Wrong = {wrong}\n')
 
 if __name__ == '__main__':
