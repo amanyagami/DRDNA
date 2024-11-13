@@ -1,4 +1,3 @@
---
 
 # DrDNA: Detecting and Mitigating Soft Errors in Deep Neural Networks
 
