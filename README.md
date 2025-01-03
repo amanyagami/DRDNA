@@ -13,3 +13,12 @@ DrDNA is a framework for detecting and mitigating soft errors in deep neural net
 - **Mitigation Techniques:** Implements state-of-the-art techniques to reduce the impact of detected errors.
 - **Model Compatibility:** Works with various deep learning architectures, such as ResNet, AlexNet, DenseNet, and VGG.
 
+## Profiling 
+Dataset = Cifar 10 
+Model  = Resnet 18 
+
+Fault injected using custom fault injector based on pytorchFI. 
+
+Results : 
+100% sdc detected
+Successfully able to replicate the results in the paper. 
