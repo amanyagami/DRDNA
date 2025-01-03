@@ -1,7 +1,7 @@
 
 # DrDNA: Detecting and Mitigating Soft Errors in Deep Neural Networks
 
-This repository contains an unofficial implementation of the paper **"DrDNA: A Detection and Mitigation Framework for Soft Errors in Deep Neural Networks"** published in the ACM Digital Library ([link to the paper](https://dl.acm.org/doi/pdf/10.1145/3620666.3651349)).
+This repository contains an unofficial implementation of the paper **"DrDNA: A Detection and Mitigation Framework for Soft Errors in Deep Neural Networks"** published in the ACM Digital Library (paper](https://dl.acm.org/doi/pdf/10.1145/3620666.3651349)).
 
 ## Overview
 
