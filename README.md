@@ -8,6 +8,8 @@ This repository contains an unofficial implementation of the paper **"DrDNA: A D
 DrDNA is a framework for detecting and mitigating soft errors in deep neural networks. Soft errors, such as silent data corruptions, pose a significant challenge to reliable deep learning model deployment, particularly in safety-critical applications. DrDNA identifies soft errors through model behavior and implements techniques to mitigate the impact of these errors.
 
 
+# Assumptions
+Used hyperparameters Lambda1,Lambda2,Lambda3 = 1
 
 ## Profiling 
 Dataset = Cifar 10 
@@ -23,3 +25,7 @@ Fault injected using custom fault injector based on pytorchFI.
 # Abnormality scores analysis 
 
 
+![alt text](https://github.com/amanyagami/DRDNA/blob/main/output.png))
+
+The affect of SDC increases the abnormality score of the values. 
+ 95% TPR threshold = 499. 
