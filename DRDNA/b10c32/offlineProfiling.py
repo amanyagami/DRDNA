@@ -336,16 +336,15 @@ if __name__ == '__main__':
         for neuron in selected_neurons:
             layer_name, location = neuron
             f.write(f"{layer_name},{location}\n")  
-
     tau1 , tau2, tau3 =  offline_profiling(0)
 
-    with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/tau1.pkl', 'wb') as f:
+    with open('../ResnetCifar10pytorchFI/DRDNA/b10c32/tau1.pkl', 'wb') as f:
         pickle.dump(tau1 ,f)
-    with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/tau2.pkl', 'wb') as f:
+    with open('../ResnetCifar10pytorchFI/DRDNA/b10c32/tau2.pkl', 'wb') as f:
         pickle.dump(tau2 ,f)
-    with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/tau3.pkl', 'wb') as f:
+    with open('../ResnetCifar10pytorchFI/DRDNA/b10c32/tau3.pkl', 'wb') as f:
         pickle.dump(tau3 ,f)
-    with open('/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/DRDNA/b10c32/activations.pkl', 'wb') as f:
+    with open('../activations.pkl', 'wb') as f:
         print("hello")
         pickle.dump(saare_activations ,f)
     

@@ -1,15 +1,11 @@
 
-from pytorchfi.core import fault_injection 
-from pytorchfi.neuron_error_models import random_neuron_inj
+
 import torch.nn as nn
-from collections import namedtuple
-from pytorchfi import core
+
 import torch
-import os
+
 import copy
-import logging
 import csv
-from bisect import bisect_left
 import pickle
 import pandas as pd
 from data.data import testloader
@@ -189,7 +185,7 @@ def test_without_fault(model, tau1, tau2, tau3):
                 for layer in LayerNames:
                     Total_score[layer] = prev + lambda1 * TAU1[layer] +  lambda2 * TAU2[layer] + lambda3 * TAU3[layer]
                     prev= Total_score[layer]
-                    Val += [(layer,TAU1[layer],TAU2[layer],TAU3[layer])]
+                Val = [Total_score[layer]]
                 writer.writerow(Val)
             final_Scores += [prev]
             TAU3List[count] = TAU3

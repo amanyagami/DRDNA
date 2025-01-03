@@ -262,7 +262,7 @@ class ResNet(nn.Module):
 def _resnet(arch, block, layers, pretrained, progress, device, **kwargs):
     model = ResNet(block, layers, **kwargs)
     if pretrained:
-        pretrained_path = "./state_dicts/" + arch + ".pt"
+        pretrained_path = "/home/local/ASUAD/asing651/ResnetCifar10pytorchFI/state_dicts/resnet18.pt"
         state_dict = torch.load(pretrained_path, map_location=device,weights_only=False)
         model.load_state_dict(state_dict)
     return model
