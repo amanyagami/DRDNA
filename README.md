@@ -1,7 +1,8 @@
 
 # DrDNA: Detecting and Mitigating Soft Errors in Deep Neural Networks
 
-This repository contains an unofficial implementation of the paper **"DrDNA: A Detection and Mitigation Framework for Soft Errors in Deep Neural Networks"** published in the ACM Digital Library (paper](https://dl.acm.org/doi/pdf/10.1145/3620666.3651349)).
+This repository contains my own implementation of the paper **"DrDNA: A Detection and Mitigation Framework for Soft Errors in Deep Neural Networks"** published in the ACM Digital Library (paper](https://dl.acm.org/doi/pdf/10.1145/3620666.3651349)) . 
+(No official implementation) 
 
 ## Overview
 
@@ -13,12 +14,14 @@ Used hyperparameters Lambda1,Lambda2,Lambda3 = 1
 
 ## Profiling 
 Dataset = Cifar 10 
+
 Model  = Resnet 18 
 
 Used 1000 samples for profiling. 
 
 # Detection Results
-100% sdc detected
+100% SDC detected
+
 Successfully able to replicate the results in the paper. 
 
 Fault injected using custom fault injector based on pytorchFI. 
